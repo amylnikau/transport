@@ -78,7 +78,8 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        if (it.records.size > 0) {
+                        if (it.isNotEmpty()) {
+                            updatedTime.set(it.updatedTime)
                             scheduleAdapter.updateItems(it.records)
                         }
                         swipeRefreshLayout.isRefreshing = false
@@ -118,8 +119,8 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
                     } else {
                         progressBar.visibility = View.GONE
                     }
-                    if (it.records.size > 0) {
-                        updatedTime.set(it.updateTime)
+                    if (it.isNotEmpty()) {
+                        updatedTime.set(it.updatedTime)
                         isFavoriteRoute.set(it.isFavorite)
                         scheduleAdapter.updateItems(it.records)
                         if (mLayoutState == null) {

@@ -7,4 +7,7 @@ class Schedule(var id: ScheduleID = ScheduleID(),
                var destinationName: String = "",
                var isFavorite: Boolean = false,
                var records: ArrayList<RouteRecord> = ArrayList(),
-               var updateTime: String ="")
+               var updatedTime: String =""){
+
+    fun isNotEmpty(): Boolean = records.size > 0
+}

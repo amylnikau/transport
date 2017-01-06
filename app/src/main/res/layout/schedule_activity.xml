@@ -112,8 +112,8 @@
                         android:layout_alignBottom="@+id/textView6"
                         android:layout_toRightOf="@+id/textView6"
                         android:layout_toEndOf="@+id/textView6"
-                        android:layout_marginLeft="18dp"
-                        android:layout_marginStart="18dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:id="@+id/textView7" />
                 </RelativeLayout>
 
