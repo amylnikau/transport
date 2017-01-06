@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import by.mylnikov.transport.databinding.ScheduleItemBinding
 import by.mylnikov.transport.model.RouteRecord
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -17,8 +18,7 @@ class ScheduleAdapter(records: ArrayList<RouteRecord>) : BaseAdapter<RouteRecord
     private fun calculateOffset(): Int {
         var low = 0
         var high = items.size - 1
-        val currentTime = "12:15"//SimpleDateFormat("HH:mm", Locale.getDefault())
-        //.format(Calendar.getInstance().time)
+        val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Calendar.getInstance().time)
         while (low <= high) {
             val mid = (low + high).ushr(1)
             val midVal = items[mid]
