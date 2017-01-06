@@ -29,6 +29,7 @@ class ScheduleActivity : BaseActivity<ScheduleViewModel>() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val collapsingLayout = binding.toolbarLayout
         collapsingLayout.setExpandedTitleColor(Color.TRANSPARENT)
+        binding.appBar.addOnOffsetChangedListener(viewModel)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

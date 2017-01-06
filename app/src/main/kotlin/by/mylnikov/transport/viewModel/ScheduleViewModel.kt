@@ -7,10 +7,13 @@ import android.databinding.ObservableField
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE
 import android.view.View
 import android.widget.TextView
 import by.mylnikov.transport.R
@@ -31,7 +34,7 @@ import java.util.*
 
 class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
                         private val scheduleRepository: ScheduleRepository,
-                        private val yandexApi: YandexScheduleApi) : ViewModel() {
+                        private val yandexApi: YandexScheduleApi) : ViewModel(), AppBarLayout.OnOffsetChangedListener {
 
     val layoutManager = LinearLayoutManager(scheduleActivity)
     val isFavoriteRoute = ObservableBoolean(false)
@@ -42,6 +45,8 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
     private val requestBody: String
     private val scheduleId: ScheduleID
     private val scheduleAdapter = ScheduleAdapter(ArrayList())
+    private val swipeRefreshLayout = scheduleActivity.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
+    private var appBarIsExpanded = true
     private var mLayoutState: Parcelable? = null
     private var showAll = true
     private var subscription: Subscription? = null
@@ -71,7 +76,6 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
         }
         requestBody = REQUEST_BODY_TEMPLATE.format(departureName.replace("\"", "\\\""), departureId, destinationName.replace("\"", "\\\""), destinationId, departureDate)
 
-        val swipeRefreshLayout = scheduleActivity.findViewById(R.id.swipeRefreshLayout) as SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener {
             yandexApi.getSchedule(RequestBody.create(MediaType.parse("application/json"), requestBody))
                     .doOnNext { scheduleRepository.updateSchedule(it) }
@@ -91,6 +95,10 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
                         snackBar.show()
                     })
         }
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        appBarIsExpanded = (verticalOffset == 0)
     }
 
     fun getAdapter(): ScheduleAdapter {
@@ -196,4 +204,11 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
             sub.unsubscribe()
     }
 
+    fun getOnScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                swipeRefreshLayout.isEnabled = newState == SCROLL_STATE_IDLE && appBarIsExpanded
+            }
+        }
+    }
 }
