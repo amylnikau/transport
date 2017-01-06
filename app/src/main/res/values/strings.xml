@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Public transport</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="schedule">Show schedule</string>
+    <string name="on_date">On date</string>
+    <string name="nav_header_desc">Nav picture</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_home">Home</string>
+    <string name="no_suggestions">No stop found. Check input!</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="action_search">Search</string>
+    <string name="add_favorite">Added to favorites</string>
+    <string name="remove_favorite">Removed from favorites</string>
+    <string name="undo">Undo</string>
+    <string name="favorite">Favorites</string>
+    <string name="today">Today</string>
+    <string name="all_days">All days</string>
+    <string name="exit_message">Once more in order to exit</string>
+    <string name="no_schedule">There is no routes between selected stops</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="updated">Updated</string>
+
+
+    <string name="pref_cookies_key">cookies</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_city">City</string>
+    <string-array name="pref_city_titles">
+        <item>Minsk</item>
+        <item>Grodno</item>
+        <item>Mogilev</item>
+    </string-array>
+    <string-array name="pref_city_values">
+        <item>157</item>
+        <item>160</item>
+        <item>170</item>
+    </string-array>
+
+    <string name="pref_sync_frequency">Sync frequency</string>
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+</resources>

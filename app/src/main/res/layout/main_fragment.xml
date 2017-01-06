@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="by.mylnikov.transport.viewModel.MainViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="by.mylnikov.transport.view.activity.MainActivity"
+        tools:showIn="@layout/main_activity">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:layout_toLeftOf="@+id/swapButton"
+            android:layout_toStartOf="@+id/swapButton"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/departure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="@{viewModel::onTextClick}"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@{viewModel.textDeparture}"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="@{viewModel::onTextClick}"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@{viewModel.textDestination}"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/schedule_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/date_button"
+            android:layout_marginTop="32dp"
+            android:onClick="@{viewModel::onClickSchedule}"
+            android:text="@string/schedule"
+            android:textColor="?android:attr/textColorPrimaryInverse" />
+
+        <Button
+            android:id="@+id/date_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout"
+            android:layout_marginTop="24dp"
+            android:layout_toLeftOf="@+id/clear_button"
+            android:layout_toStartOf="@+id/clear_button"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:drawablePadding="10dp"
+            android:gravity="start|center_vertical"
+            android:onClick="@{viewModel::onClickDate}"
+            android:text="@{viewModel.tripDate, default=`25 JULY,2016`}"
+            android:textColor="?android:attr/textColorPrimaryInverse" />
+
+        <ImageButton
+            android:id="@+id/clear_button"
+            style="?attr/buttonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/date_button"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/date_button"
+            android:background="@drawable/button_ripple"
+            android:onClick="@{viewModel::onClickClear}"
+            app:srcCompat="@drawable/ic_clear"
+            android:tint="@android:color/white"
+            android:visibility="@{viewModel.tripDate==null? View.GONE: View.VISIBLE}" />
+
+        <ImageButton
+            android:id="@+id/swapButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/linearLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/linearLayout"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_swap"
+            android:tint="@color/button_tint"
+            android:onClick="@{viewModel::onSwapClick}"/>
+
+
+    </RelativeLayout>
+</layout>

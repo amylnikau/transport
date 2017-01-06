@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Транспорт</string>
+    <string name="action_settings">Настройки</string>
+    <string name="on_date">На дату</string>
+    <string name="schedule">Расписание</string>
+    <string name="navigation_drawer_close">Закрыть навигационную панель</string>
+    <string name="navigation_drawer_open">Открыть навигационную панель</string>
+</resources>

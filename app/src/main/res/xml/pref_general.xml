@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="General"
+        android:key="pref_general_cat">
+        <ListPreference
+            android:defaultValue="157"
+            android:entries="@array/pref_city_titles"
+            android:entryValues="@array/pref_city_values"
+            android:key="city"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_city" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Synchronization"
+        android:key="pref_synchronization_cat">
+        <ListPreference
+            android:defaultValue="180"
+            android:entries="@array/pref_sync_frequency_titles"
+            android:entryValues="@array/pref_sync_frequency_values"
+            android:key="sync_frequency"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_sync_frequency" />
+    </PreferenceCategory>
+</PreferenceScreen>
