@@ -1,6 +1,7 @@
 package by.mylnikov.transport.util
 
 import android.databinding.BindingAdapter
+import android.support.design.widget.FloatingActionButton
 import android.widget.Button
 import by.mylnikov.transport.R
 import java.text.SimpleDateFormat
@@ -20,6 +21,11 @@ object DataBinding {
         } else
             strDate = view.context.getString(R.string.all_days)
         view.text = strDate
+    }
+
+    @BindingAdapter("app:srcCompat")
+    @JvmStatic fun srcCompat(actionButton: FloatingActionButton, resourceId: Int) {
+        actionButton.setImageResource(resourceId)
     }
 
     private @JvmStatic fun getZeroTimeDate(date: Date): Date {

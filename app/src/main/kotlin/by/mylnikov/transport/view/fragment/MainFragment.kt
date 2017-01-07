@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.view.*
+import android.widget.Button
+import android.widget.ImageButton
 import by.mylnikov.transport.R
 import by.mylnikov.transport.TransportApplication
 import by.mylnikov.transport.api.model.TransportStop
@@ -28,10 +30,8 @@ class MainFragment : BaseFragment<MainViewModel>() {
                               savedInstanceState: Bundle?): View {
         val viewBinding = DataBindingUtil.inflate<MainFragmentBinding>(inflater, R.layout.main_fragment, container, false)
         viewBinding.viewModel = viewModel
-        val drawable = ContextCompat.getDrawable(activity, R.drawable.ic_calendar)
-        val wrappedDrawable = DrawableCompat.wrap(drawable).mutate()
-        DrawableCompat.setTint(wrappedDrawable, Color.WHITE)
-        viewBinding.dateButton.setCompoundDrawablesWithIntrinsicBounds(wrappedDrawable, null, null, null)
+        tintDateButton(viewBinding.dateButton)
+        tintSwapButton(viewBinding.swapButton)
         return viewBinding.root
     }
 
@@ -55,5 +55,19 @@ class MainFragment : BaseFragment<MainViewModel>() {
         TransportApplication.appComponent
                 .plus(MainFragmentModule(this))
                 .inject(this)
+    }
+
+    private fun tintSwapButton(button: ImageButton) {
+        val colours = ContextCompat.getColorStateList(button.context, R.color.button_tint)
+        val d = DrawableCompat.wrap(button.drawable)
+        DrawableCompat.setTintList(d, colours)
+        button.setImageDrawable(d)
+    }
+
+    private fun tintDateButton(button: Button){
+        val drawable = ContextCompat.getDrawable(activity, R.drawable.ic_calendar)
+        val wrappedDrawable = DrawableCompat.wrap(drawable).mutate()
+        DrawableCompat.setTint(wrappedDrawable, Color.WHITE)
+        button.setCompoundDrawablesWithIntrinsicBounds(wrappedDrawable, null, null, null)
     }
 }

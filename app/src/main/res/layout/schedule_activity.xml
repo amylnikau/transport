@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="by.mylnikov.transport.R" />
+
         <variable
             name="viewModel"
             type="by.mylnikov.transport.viewModel.ScheduleViewModel" />
@@ -24,13 +26,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
             android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                android:theme="@style/AppTheme.AppBarOverlay"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 app:title='@{viewModel.departureName + " - " + viewModel.destinationName}'>
@@ -47,8 +51,8 @@
                         android:layout_alignBottom="@+id/textView3"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginStart="32dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:text="@string/from"
                         android:textColor="@android:color/white"
                         android:textSize="16sp" />
@@ -58,10 +62,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
+                        android:layout_below="@+id/textView6"
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="19dp"
                         android:layout_marginTop="48dp"
-                        android:layout_below="@+id/textView6"
                         android:layout_toEndOf="@+id/textView"
                         android:layout_toRightOf="@+id/textView"
                         android:text="@{viewModel.departureName, default=Юхновка}"
@@ -92,51 +96,41 @@
                         android:textColor="@android:color/white" />
 
                     <TextView
-                        android:text="@string/updated"
+                        android:id="@+id/textView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView6"
-                        android:textColor="@android:color/white"
-                        android:layout_marginTop="16dp"
-                        android:layout_alignParentTop="true"
                         android:layout_alignLeft="@+id/textView3"
-                        android:layout_alignStart="@+id/textView3" />
+                        android:layout_alignParentTop="true"
+                        android:layout_alignStart="@+id/textView3"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/updated"
+                        android:visibility="@{viewModel.updatedTime.isEmpty() ? View.INVISIBLE: View.VISIBLE}"
+                        android:textColor="@android:color/white" />
 
                     <TextView
-                        android:text="@{viewModel.updatedTime}"
-                        android:textColor="@android:color/white"
+                        android:id="@+id/textView7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_alignBaseline="@+id/textView6"
                         android:layout_alignBottom="@+id/textView6"
-                        android:layout_toRightOf="@+id/textView6"
-                        android:layout_toEndOf="@+id/textView6"
+                        android:layout_alignParentTop="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginStart="10dp"
-                        android:id="@+id/textView7" />
+                        android:layout_toEndOf="@+id/textView6"
+                        android:layout_toRightOf="@+id/textView6"
+                        android:text="@{viewModel.updatedTime}"
+                        android:textColor="@android:color/white" />
                 </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin" />
+                    app:titleTextColor="@android:color/white"
+                    app:layout_collapseMode="pin"/>
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            android:clickable="true"
-            android:onClick="@{viewModel::onFavoriteClick}"
-            android:src="@{viewModel.isFavoriteRoute? @drawable/ic_star : @drawable/ic_star_border}"
-            android:tint="@android:color/white"
-            app:layout_anchor="@id/app_bar"
-            app:layout_anchorGravity="bottom|end" />
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -156,7 +150,8 @@
                     android:background="#e0e0e0"
                     android:scrollbars="vertical"
                     app:adapter="@{viewModel.adapter}"
-                    app:layoutManager="@{viewModel.layoutManager}">
+                    app:layoutManager="@{viewModel.layoutManager}"
+                    app:onScrollListener="@{viewModel.onScrollListener}">
 
                 </android.support.v7.widget.RecyclerView>
             </android.support.v4.widget.SwipeRefreshLayout>
@@ -200,5 +195,18 @@
             android:onClick="@{viewModel::onDisplayModeClick}"
             android:tint="@android:color/white"
             app:srcCompat="@drawable/ic_av_timer" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            android:onClick="@{viewModel::onFavoriteClick}"
+            android:tint="@android:color/white"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@{viewModel.isFavoriteRoute? R.drawable.ic_star : R.drawable.ic_star_border}" />
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>

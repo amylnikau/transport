@@ -6,4 +6,22 @@
     <string name="schedule">Расписание</string>
     <string name="navigation_drawer_close">Закрыть навигационную панель</string>
     <string name="navigation_drawer_open">Открыть навигационную панель</string>
+    <string name="action_search">Поиск</string>
+    <string name="add_favorite">Добавлено в избранное</string>
+    <string name="all_days">На все дни</string>
+    <string name="exit_message">Еще раз для выхода</string>
+    <string name="favorite">Избранное</string>
+    <string name="from">Откуда</string>
+    <string name="no_internet">Нет подключения к интернету</string>
+    <string name="no_schedule">Нет маршрута между выбранными остановками</string>
+    <string name="no_suggestions">Не найдено. Проверьте ввод</string>
+    <string name="pref_city">Город</string>
+    <string name="pref_header_general">Общие</string>
+    <string name="pref_sync_frequency">Частота обновлений</string>
+    <string name="remove_favorite">Удалено из избранного</string>
+    <string name="to">Куда</string>
+    <string name="today">Сегодня</string>
+    <string name="undo">Отменить</string>
+    <string name="updated">Обновлено</string>
+    <string name="nav_home">Главная</string>
 </resources>

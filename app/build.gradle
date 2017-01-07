@@ -11,7 +11,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "0.1"
-        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -59,6 +58,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     kapt 'com.android.databinding:compiler:2.2.3'
     kapt 'com.google.dagger:dagger-compiler:2.8'
-
 
 }

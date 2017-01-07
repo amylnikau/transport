@@ -28,6 +28,7 @@ class ScheduleActivity : BaseActivity<ScheduleViewModel>() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val collapsingLayout = binding.toolbarLayout
+        collapsingLayout.setCollapsedTitleTextColor(Color.WHITE)
         collapsingLayout.setExpandedTitleColor(Color.TRANSPARENT)
         binding.appBar.addOnOffsetChangedListener(viewModel)
     }
