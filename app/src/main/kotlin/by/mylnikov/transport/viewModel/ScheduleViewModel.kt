@@ -14,21 +14,22 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import by.mylnikov.transport.R
 import by.mylnikov.transport.api.YandexScheduleApi
+import by.mylnikov.transport.model.Schedule
 import by.mylnikov.transport.model.ScheduleID
 import by.mylnikov.transport.repository.ScheduleRepository
 import by.mylnikov.transport.repository.sqlite.ChangeFavoriteSpecification
 import by.mylnikov.transport.view.activity.ScheduleActivity
 import by.mylnikov.transport.view.adapter.ScheduleAdapter
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import rx.Observable
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.util.*
 
 
@@ -49,13 +50,12 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
     private var appBarIsExpanded = true
     private var mLayoutState: Parcelable? = null
     private var showAll = true
-    private var subscription: Subscription? = null
 
     companion object {
         private const val LAYOUT_STATE_KEY = "LAYOUT_STATE_KEY"
         private const val SHOW_ALL_KEY = "SHOW_ALL_KEY"
         private const val ANIMATION_DURATION = 1000L
-        private const val REQUEST_BODY_TEMPLATE = "{\"methods\":[{\"method\":\"search\",\"params\":{\"context\":{\"userInput\":{\"from\":{\"title\":\"%1\$s\",\"key\":\"%2\$s\"},\"to\":{\"title\":\"%3\$s\",\"key\":\"%4\$s\"}},\"transportType\":\"all\",\"from\":{\"key\":\"%2\$s\",\"title\":\"%1\$s\",\"timezone\":\"Europe/Minsk\",\"country\":{\"code\":\"BY\",\"railwayTimezone\":\"Europe/Minsk\"}},\"to\":{\"key\":\"%4\$s\",\"title\":\"%3\$s\",\"timezone\":\"Europe/Minsk\",\"country\":{\"code\":\"BY\",\"railwayTimezone\":\"Europe/Minsk\"}},\"searchNext\":false,\"when\":{%5\$s},\"language\":\"ru\",\"searchForPastDate\":false,\"sameSuburbanZone\":true},\"page\":{\"location\":{},\"fullUrl\":\"\"},\"nationalVersion\":\"by\"}}]}"
+        private const val REQUEST_BODY_TEMPLATE = "{\"methods\":[{\"method\":\"search\",\"params\":{\"context\":{\"userInput\":{\"from\":{\"title\":\"%1\$s\",\"key\":\"%2\$s\"},\"to\":{\"title\":\"%3\$s\",\"key\":\"%4\$s\"}},\"transportType\":\"all\",\"from\":{\"key\":\"%2\$s\",\"title\":\"%1\$s\",\"timezone\":\"Europe/Minsk\",\"country\":{\"code\":\"BY\",\"railwayTimezone\":\"Europe/Minsk\"}},\"to\":{\"key\":\"%4\$s\",\"title\":\"%3\$s\",\"timezone\":\"Europe/Minsk\",\"country\":{\"code\":\"BY\",\"railwayTimezone\":\"Europe/Minsk\"}},\"searchNext\":false,\"when\":{%5\$s},\"language\":\"ru\",\"searchForPastDate\":false,\"sameSuburbanZone\":true},\"nationalVersion\":\"by\"}}]}"
     }
 
     init {
@@ -105,7 +105,7 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
         val network = yandexApi.getSchedule(RequestBody.create(MediaType.parse("application/json"), requestBody))
                 .doOnNext { scheduleRepository.addSchedule(it) }
         val disk = scheduleRepository.getSchedule(scheduleId)
-        subscription = Observable.concat(disk, network).first()
+        val subscription = Observable.concat(disk, network).first(Schedule())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -146,11 +146,13 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
                     } else {
                         errorMessage.set(scheduleActivity.resources.getString(R.string.no_schedule))
                     }
-                }, {
+                } , {
+                    Log.e("tAG2",it.message)
                     val progressBar = scheduleActivity.findViewById(R.id.progressBar)
                     progressBar.visibility = View.GONE
                     errorMessage.set(scheduleActivity.resources.getString(R.string.no_internet))
                 })
+        addToDisposables(subscription)
         return scheduleAdapter
     }
 
@@ -195,13 +197,6 @@ class ScheduleViewModel(private val scheduleActivity: ScheduleActivity,
             mLayoutState = savedInstanceState.getParcelable(LAYOUT_STATE_KEY)
             showAll = savedInstanceState.getBoolean(SHOW_ALL_KEY)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        val sub = subscription
-        if (sub != null && !sub.isUnsubscribed)
-            sub.unsubscribe()
     }
 
     fun getOnScrollListener(): RecyclerView.OnScrollListener {

@@ -2,9 +2,9 @@ package by.mylnikov.transport.api
 
 import by.mylnikov.transport.api.model.SuggestionsResponse
 import by.mylnikov.transport.model.Schedule
+import io.reactivex.Observable
 import okhttp3.RequestBody
 import retrofit2.http.*
-import rx.Observable
 
 
 interface YandexScheduleApi {

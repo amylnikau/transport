@@ -4,8 +4,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import by.mylnikov.transport.model.Favorite
 import by.mylnikov.transport.model.ScheduleID
 import by.mylnikov.transport.repository.FavoritesRepository
-import rx.Observable
-import rx.lang.kotlin.observable
+import io.reactivex.Observable
 
 class SQLiteFavoritesRepository(private val mDBHelper: SQLiteOpenHelper) : FavoritesRepository {
 
@@ -14,7 +13,7 @@ class SQLiteFavoritesRepository(private val mDBHelper: SQLiteOpenHelper) : Favor
     }
 
     override fun getFavorites(): Observable<Favorite> {
-        return observable {
+        return Observable.create {
             val db = mDBHelper.readableDatabase
             val cursor = db.rawQuery(SQL_GET_FAVORITES, null)
             while (cursor.moveToNext()) {
@@ -28,7 +27,7 @@ class SQLiteFavoritesRepository(private val mDBHelper: SQLiteOpenHelper) : Favor
             }
             cursor.close()
             db.close()
-            it.onCompleted()
+            it.onComplete()
         }
     }
 }

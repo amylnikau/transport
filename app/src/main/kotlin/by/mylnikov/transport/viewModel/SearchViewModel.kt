@@ -8,11 +8,13 @@ import android.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import by.mylnikov.transport.api.YandexScheduleApi
+import by.mylnikov.transport.api.model.TransportStop
 import by.mylnikov.transport.view.activity.SearchActivity
 import by.mylnikov.transport.view.adapter.StopAdapter
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
-import java.util.*
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 
 class SearchViewModel(private val searchActivity: SearchActivity,
@@ -51,14 +53,26 @@ class SearchViewModel(private val searchActivity: SearchActivity,
                 return false
             }
         }
-        stopAdapter.getPositionClicks()
-                .subscribe {
-                    val result = Intent()
-                    result.putExtra(MainViewModel.TRANSPORT_STOP, it)
-                    searchActivity.setResult(Activity.RESULT_OK, result)
-                    searchActivity.finish()
-                }
-    }
 
+        stopAdapter.subscribePositionClicks(object : Observer<TransportStop>{
+            override fun onSubscribe(d: Disposable) {
+                addToDisposables(d)
+            }
+
+            override fun onError(e: Throwable?) {
+            }
+
+            override fun onComplete() {
+            }
+
+            override fun onNext(transportStop: TransportStop) {
+                val result = Intent()
+                result.putExtra(MainViewModel.TRANSPORT_STOP, transportStop)
+                searchActivity.setResult(Activity.RESULT_OK, result)
+                searchActivity.finish()
+            }
+
+        })
+    }
 
 }

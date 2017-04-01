@@ -60,11 +60,8 @@ class ScheduleAdapter(records: ArrayList<RouteRecord>) : BaseAdapter<RouteRecord
 
 
     class ScheduleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: ScheduleItemBinding
+        var binding: ScheduleItemBinding = DataBindingUtil.bind(itemView)
 
-        init {
-            binding = DataBindingUtil.bind(itemView)
-        }
     }
 
 }

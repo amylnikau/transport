@@ -24,10 +24,7 @@ class StopAdapter(stops: ArrayList<TransportStop>) : BaseAdapter<TransportStop, 
 
 
     class StopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: StopItemBinding
+        var binding: StopItemBinding = DataBindingUtil.bind(itemView)
 
-        init {
-            binding = DataBindingUtil.bind(itemView)
-        }
     }
 }

@@ -2,7 +2,7 @@ package by.mylnikov.transport.repository
 
 import by.mylnikov.transport.model.Schedule
 import by.mylnikov.transport.model.ScheduleID
-import rx.Observable
+import io.reactivex.Observable
 
 interface ScheduleRepository {
     fun addSchedule(schedule: Schedule)

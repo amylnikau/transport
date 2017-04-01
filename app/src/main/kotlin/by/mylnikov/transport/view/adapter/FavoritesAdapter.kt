@@ -24,10 +24,7 @@ class FavoritesAdapter(items: ArrayList<Favorite>): BaseAdapter<Favorite, Favori
     }
 
     class FavoritesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: FavoritesItemBinding
+        var binding: FavoritesItemBinding = DataBindingUtil.bind(itemView)
 
-        init {
-            binding = DataBindingUtil.bind(itemView)
-        }
     }
 }

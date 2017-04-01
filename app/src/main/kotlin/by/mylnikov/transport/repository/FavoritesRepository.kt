@@ -1,7 +1,7 @@
 package by.mylnikov.transport.repository
 
 import by.mylnikov.transport.model.Favorite
-import rx.Observable
+import io.reactivex.Observable
 
 
 interface FavoritesRepository {

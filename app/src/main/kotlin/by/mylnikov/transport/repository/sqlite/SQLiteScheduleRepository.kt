@@ -9,8 +9,7 @@ import by.mylnikov.transport.repository.ScheduleRepository
 import by.mylnikov.transport.repository.ScheduleSpecification
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import rx.Observable
-import rx.lang.kotlin.observable
+import io.reactivex.Observable
 import java.util.*
 
 class SQLiteScheduleRepository(private val mDBHelper: SQLiteOpenHelper) : ScheduleRepository {
@@ -64,7 +63,7 @@ class SQLiteScheduleRepository(private val mDBHelper: SQLiteOpenHelper) : Schedu
     }
 
     override fun getSchedule(scheduleId: ScheduleID): Observable<Schedule> {
-        return observable {
+        return Observable.create {
             val db = mDBHelper.readableDatabase
             val cursor = db.rawQuery(SQL_GET_SCHEDULE_BY_ID.format(scheduleId.from, scheduleId.to, scheduleId.date), null)
             if (cursor.moveToFirst()) {
@@ -79,7 +78,7 @@ class SQLiteScheduleRepository(private val mDBHelper: SQLiteOpenHelper) : Schedu
             }
             cursor.close()
             db.close()
-            it.onCompleted()
+            it.onComplete()
         }
     }
 }

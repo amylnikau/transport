@@ -2,9 +2,8 @@ package by.mylnikov.transport.view.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import rx.Observable
-import rx.subjects.PublishSubject
-import java.util.*
+import io.reactivex.Observer
+import io.reactivex.subjects.PublishSubject
 
 
 abstract class BaseAdapter<T, K : RecyclerView.ViewHolder>(val items: ArrayList<T>) : RecyclerView.Adapter<K>() {
@@ -34,7 +33,7 @@ abstract class BaseAdapter<T, K : RecyclerView.ViewHolder>(val items: ArrayList<
         viewHolder.itemView.setOnClickListener({ onClickSubject.onNext(items[i]) })
     }
 
-    fun getPositionClicks(): Observable<T> {
-        return onClickSubject.asObservable()
+    fun subscribePositionClicks(observer: Observer<T>) {
+        onClickSubject.subscribe(observer)
     }
 }
