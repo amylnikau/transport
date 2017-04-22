@@ -23,7 +23,8 @@ class FavoritesViewModel(private val favoritesFragment: FavoritesFragment,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { it.scheduleId.date == "all-days" }
-                .subscribe { favoritesAdapter.addItem(it) }
+                .toList()
+                .subscribe { favList -> favoritesAdapter.updateItems(favList) }
         addToDisposables(favDisposable)
 
         favoritesAdapter.subscribePositionClicks(object : Observer<Favorite> {

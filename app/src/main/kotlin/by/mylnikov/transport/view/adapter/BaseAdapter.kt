@@ -16,11 +16,6 @@ abstract class BaseAdapter<T, K : RecyclerView.ViewHolder>(val items: ArrayList<
         notifyDataSetChanged()
     }
 
-    fun addItem(newItem: T) {
-        items.add(newItem)
-        notifyDataSetChanged()
-    }
-
     override fun getItemCount(): Int {
         return items.size
     }

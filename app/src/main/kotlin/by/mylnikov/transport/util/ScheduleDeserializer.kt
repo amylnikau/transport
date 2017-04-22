@@ -13,7 +13,7 @@ import java.util.*
 
 class ScheduleDeserializer : JsonDeserializer<Schedule> {
 
-    companion object{
+    companion object {
         val updateTimeFormat = SimpleDateFormat("HH:mm dd-MM", Locale.getDefault())
         val receivedFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
         val requiredTimeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -60,7 +60,7 @@ class ScheduleDeserializer : JsonDeserializer<Schedule> {
         val pointTo = search.getAsJsonObject("context").getAsJsonObject("search").getAsJsonObject("pointTo")
         val scheduleId = ScheduleID(pointFrom.getAsJsonPrimitive("key").asString, pointTo.getAsJsonPrimitive("key").asString, scheduleDate)
         val updatedTime = updateTimeFormat.format(Calendar.getInstance().time)
-        return Schedule(scheduleId,pointFrom.getAsJsonPrimitive("title").asString,
-                pointTo.getAsJsonPrimitive("title").asString, false, routeRecords,updatedTime)
+        return Schedule(scheduleId, pointFrom.getAsJsonPrimitive("title").asString,
+                pointTo.getAsJsonPrimitive("title").asString, false, updatedTime, routeRecords)
     }
 }

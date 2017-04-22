@@ -34,6 +34,14 @@ repositories {
     mavenCentral()
 }
 
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith('test')) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -56,6 +64,9 @@ dependencies {
     compile 'javax.annotation:jsr250-api:1.0'
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.1'
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.1.1'
+
     kapt 'com.android.databinding:compiler:2.3.0'
     kapt 'com.google.dagger:dagger-compiler:2.10'
 

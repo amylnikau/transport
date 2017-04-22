@@ -74,7 +74,7 @@ class SQLiteScheduleRepository(private val mDBHelper: SQLiteOpenHelper) : Schedu
                 val departureName = cursor.getString(cursor.getColumnIndex(DBContract.ScheduleTable.FROM_NAME))
                 val destinationName = cursor.getString(cursor.getColumnIndex(DBContract.ScheduleTable.TO_NAME))
                 val updatedTime = cursor.getString(cursor.getColumnIndex(DBContract.ScheduleTable.UPDATED_TIME))
-                it.onNext(Schedule(scheduleId, departureName, destinationName, isFavorite, records, updatedTime))
+                it.onNext(Schedule(scheduleId, departureName, destinationName, isFavorite, updatedTime, records))
             }
             cursor.close()
             db.close()

@@ -6,8 +6,19 @@ class Schedule(var id: ScheduleID = ScheduleID(),
                var departureName: String = "",
                var destinationName: String = "",
                var isFavorite: Boolean = false,
-               var records: ArrayList<RouteRecord> = ArrayList(),
-               var updatedTime: String =""){
+               var updatedTime: String = "",
+               private var _records: List<RouteRecord> = ArrayList()) {
 
-    fun isNotEmpty(): Boolean = records.size > 0
+    var records
+        get() = _records
+        set(value) {
+            Collections.sort(value)
+            _records = value
+        }
+
+    init {
+        Collections.sort(_records)
+    }
+
+    fun isNotEmpty(): Boolean = records.isNotEmpty()
 }
