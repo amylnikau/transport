@@ -22,7 +22,5 @@
     static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
 }
 
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Signature
--keepattributes Exceptions
+-dontwarn okio.**
+-dontwarn retrofit2.Platform$Java8
