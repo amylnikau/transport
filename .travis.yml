@@ -1,9 +1,23 @@
 language: android
 jdk: oraclejdk8
+
 android:
   components:
-    - tools
-    - platform-tools
-    - build-tools-25.0.2
-    - android-25
-    - extra-android-m2repository
+  - tools
+  - platform-tools
+  - build-tools-25.0.2
+  - android-25
+  - extra-android-m2repository
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_e1e8e6aaf1bc_key -iv $encrypted_e1e8e6aaf1bc_iv
+  -in keystore.jks.enc -out keystore.jks -d
+
+deploy:
+  provider: releases
+  api_key:
+    secure: O/Oe0cZJQ6hmlLWq+vHy/vKQ6fMdzrG2Z7SKTCbbney2hQNMbKT+NuqarAbmA7rB3rW0Qa1vZ/if82iVzEKEi3MKD7Yjw0NicGuJkeqvw3vIArBagRTk8dtaHFpsmLeNbNOA3vn/w347KW8AtRQdnK3dInHqPOlW4no5z2jilOQ4DGIP4p2Sc1qqfmjiEbrOdL5B9eYojmgfIdWr9FLV4rz5aAGdusmz6n43l73WjWoFzkqy2Va0lLXOLkueuKz0SNdfkoqN/fUhF0xx6BAeX/SeUYLMd6HznGzVk3pcSuc54CGElOhv6s5gnBFG0AEpg0ntRJ2DgPMYVOdjw+kVijJ/fbDVV1AtaDWCXglfKkdMNkxAFpe8AVmVLFXpQphgRxk7lgWxLSpSBq7w1/8QOwjpB7T1VScNWbK8hopno24FCXoCqMmZUxZNJgpA1yID1YadNM5fGuDDCTnMsstTr+COoSlR5WwXgQ30TH9zEiHbVOxQu7IzCmsIapP0A3zOiIp7W8XPnMuVIwxRnMU/iRE7waSfshlu/lqFdnpjU3mq0Ynbr3FBQduwW9XBsLwnOPIJndXQbvZ4ga+KMjQRMUnSoDB1xgHVuZJb8Do1pd/O9E++WXn0clo65qpk4mwYJmoavxgNodb04upGml8yM7pZL/p/uucdivPptBNZhyE=
+  file: "app/build/outputs/apk/app*release*.apk"
+  on:
+    repo: andry444/transport
+    tags: true

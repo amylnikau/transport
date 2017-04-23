@@ -75,3 +75,5 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.10'
 
 }
+
+apply from: "signing.gradle"

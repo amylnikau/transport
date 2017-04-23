@@ -1,0 +1,20 @@
+if (project.hasProperty("key_alias")
+        && project.hasProperty("key_password")
+        && project.hasProperty("keystore_password")
+        && file('../keystore.jks').exists()) {
+    android {
+        signingConfigs {
+            releaseSigningConfig {
+                keyAlias key_alias
+                keyPassword key_password
+                storeFile file('../keystore.jks')
+                storePassword keystore_password
+            }
+        }
+        buildTypes {
+            release {
+                signingConfig signingConfigs.releaseSigningConfig
+            }
+        }
+    }
+}
